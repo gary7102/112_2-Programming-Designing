@@ -13,7 +13,7 @@ void init_dice(Dice *d) {
     d->ffront = 4;
     d->bback = 3;
 }
-
+/////
 int check(int first_dice, int second_dice){
     return (first_dice == second_dice)? 1:0;
 }
