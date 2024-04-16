@@ -264,7 +264,7 @@ int main(){
     }
 }
 */
-
+/*
 #include <stdio.h>
 #include <string.h>
 
@@ -319,5 +319,91 @@ int main(){
                 }
             }else printf("error\n");
         }
+    }
+}
+*/
+
+#include <stdio.h>
+#include <string.h>
+
+int check_if_deno_zero(char ans[]){
+    for(int i=0; i<strlen(ans); i++){
+        if(*(ans+i)=='(' && *(ans+i+1)=='0') return 1;
+        else if(*(ans+i)=='(' && *(ans+i+1)=='-') return 1;
+        else if(*(ans+i)=='/' && *(ans+i+1)=='0') return 1;
+        else if(*(ans+i)=='/' && *(ans+i+1)=='-') return 1;
+    }
+    return 0;
+}
+
+int main(){
+    int n;
+    scanf("%d", &n);
+    char ans[50];
+    for(int j=0; j<n; j++){
+        int integer=0, fp=0, var=0, para=0, fraction=0, first_para=-1, index_fraction=0, zero=0, under_line=0, last_para;
+        scanf("%s", ans);
+        if(*ans=='0'&& strlen(ans)==1) {printf("integer\n"); continue;}
+        else if(*ans=='0') {printf("error\n"); continue;}
+        else if(*ans=='-' && *(ans+1)=='0') {printf("error\n"); continue;}
+        else if(check_if_deno_zero(ans)) {printf("error\n"); continue;}
+        // printf("%d\n", strlen(ans));
+
+        for(int i=0; i<strlen(ans); i++){
+            if(i==0 && *ans=='-') integer++;
+            else if(i==0 && *ans=='0'){zero++; integer++;}
+            else if(*(ans+i)>='0' && *(ans+i)<='9') integer++;
+            else if(*(ans+i)=='.' && i+1!=strlen(ans)) fp++;
+            else if(*(ans+i)=='/') {fraction++; index_fraction = i;}
+            else if(*(ans+i)=='(' && *(ans+i+1)!=')') {para++; first_para = i;}
+            else if(*(ans+i)==')' && i+1==strlen(ans) && first_para < index_fraction) {para++; last_para=i;}
+            else if(*ans=='_' && i==0){under_line++; var++;}
+            else if((*(ans+i)>='A' && *(ans+i)<='Z') || (*(ans+i)>='a' && *(ans+i)<='z') || *(ans+i)=='_') var++;
+        }
+        // printf("integer=%d, fp=%d, var=%d, para=%d, fraction=%d, first_para=%d, index_fraction=%d, zero=%d, underlind=%d\n", integer, fp, var, para, fraction, first_para, index_fraction, zero, under_line);
+        
+        if(integer==strlen(ans) && zero==0) printf("integer\n");
+        else if(fp+integer==strlen(ans) && fp==1){
+            printf("float\n");
+            for(int i=0; i<strlen(ans); i++) (*(ans+i)=='.')? printf("\n") : printf("%c", *(ans+i));
+            printf("\n");
+        } 
+        else if(para==2 && fraction==1){    // check if numerator < denominator
+            int count[2]={0};
+            // int negative = (*ans=='-')? 1 : 0;
+            int k=0;
+            for(int i=first_para+1; i<last_para; i++){
+                if(*(ans+i)=='/') {k++; continue;}
+                count[k]++;
+            }
+            if(count[0]>count[1]) printf("error\n");
+            else if(count[0]<count[1]) printf("algebraic fraction\n");
+            else{
+                for(int i=first_para+1; i<=first_para+count[0]; i++){
+                    // printf("%c, %c\n", *(ans+i), *(ans+1+i+count[0]));
+                    if(*(ans+i)>*(ans+i+1+count[0])) {printf("error\n"); break;}
+                    else if(*(ans+i)<*(ans+i+1+count[0])) {printf("algebraic fraction\n"); break;}
+                }
+            }
+        }else if(fraction==1){
+            int count[2]={0};
+            int negative = (*ans=='-')? 1 : 0;
+            int k=0;
+            for(int i=negative; i<strlen(ans); i++){
+                if(*(ans+i)=='/') {k++; continue;}
+                count[k]++;
+            }
+            if(count[0]>count[1]) printf("improper fraction\n");
+            else if(count[0]<count[1]) printf("proper farction\n");
+            else{
+                for(int i=negative; i<negative+count[0]; i++){
+                    // printf("%c, %c\n", *(ans+i), *(ans+1+i+count[0]));
+                    if(*(ans+i)>*(ans+i+1+count[0])) {printf("improper fraction\n"); break;}
+                    else if(*(ans+i)<*(ans+i+1+count[0])) {printf("proper fraction\n"); break;}
+                }
+            }
+            // printf("negative=%d, count[0]=%d, count[1]=%d\n", negative, count[0], count[1]);
+        }else if(var+integer==strlen(ans) && zero==0 && (under_line==1 || *ans>='A' && *ans<='Z' || *ans>='a' && *ans<='z')) printf("variable\n");
+        else printf("error\n");
     }
 }
