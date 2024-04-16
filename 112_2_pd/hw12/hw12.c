@@ -43,11 +43,11 @@ void updateBasesAndScore(char hit, int bases[4], int *score, Player *player, Pla
             (*score)++; // 全壘打
         }
         player->runs += advance; // 更新跑壘數
+        
 
         // printf("advance = %d\n", advance);
         // // printf("current_player[%d] : runs = %d\n", current_player, players[current_player].runs);
         // printf("bases = %d %d %d\n", bases[1], bases[2], bases[3]);
-        
     }
 }
 
