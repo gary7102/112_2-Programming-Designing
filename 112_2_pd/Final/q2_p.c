@@ -33,9 +33,9 @@ int rectanglePerimiter(rectangle_t *r){return 2*(r->height+r->width);}
 int rectangleArea(rectangle_t *r){return r->height*r->width;}
 int squarePerimiter(square_t *s){return s->side*4;}
 int squareArea(square_t *s){return s->side*s->side;}
-int trianglePerimiter(triangle_t *t){return t->s1+t->s2+t->s3;}
+int trianglePerimiter(triangle_t *t){return t->s1 + t->s2 + t->s3;}
 int triangleArea(triangle_t *t){
-    int s = (t->s1+t->s2+t->s3)/3;
+    int s = (t->s1 + t->s2 + t->s3)/2;
     return sqrt(s * (s - t->s1) * (s - t->s2) * (s - t->s3));
 }
 
@@ -69,6 +69,31 @@ shape_t* newShape(char *name){
         return (shape_t *)t;
     }
 }
+
+void printShape(shape_t *shapes[], int num){
+    int perimeter = 0, area = 0;
+    for(int i=0; i<num; i++){
+        printf("%s %d %d\n", shapes[i]->name, shapes[i]->perimeter(shapes[i]), shapes[i]->area(shapes[i]));
+        perimeter += shapes[i]->perimeter(shapes[i]);
+        area += shapes[i]->area(shapes[i]);
+    }
+    printf("%d %d", perimeter, area);
+}
+
+void sortShape(shape_t *shapes[], int num){
+    for(int i=0; i<num-1; i++){
+        for(int j=0; j<num-i-1; j++){
+            if(shapes[j]->perimeter(shapes[j]) < shapes[j+1]->perimeter(shapes[j+1]) ||
+            (shapes[j]->perimeter(shapes[j]) == shapes[j+1]->perimeter(shapes[j+1]) && shapes[j]->area(shapes[j]) == shapes[j+1]->area(shapes[j+1]))){
+                shape_t *temp = shapes[j];
+                shapes[j] = shapes[j+1];
+                shapes[j+1] = temp;
+            }
+        }
+    }
+}
+
+
 
 void main(){
     int num;
