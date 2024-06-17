@@ -37,8 +37,7 @@ int rectangle_area(rectangle_t *r){return (r->height * r->width);}
 int square_perimeter(square_t *s){return s->side*4;}
 int square_area(square_t *s){return s->side * s->side;}
 int triangle_perimeter(triangle_t *t){return t->s1 + t->s2 + t->s3;}
-int triangle_area(triangle_t *t)
-{
+int triangle_area(triangle_t *t){
     int s = ( t->s1 + t->s2 + t->s3)/2;
     return sqrt(s * (s - t->s1)* (s - t->s2)* (s - t->s3));
 }
@@ -101,9 +100,6 @@ void pringShape(shape_t *shapes[], int num)
     
 }
 
-
-
-
 int main()
 {
     int num;
@@ -133,14 +129,7 @@ int main()
                 scanf("%d", &c->radius);
             }
         }
-        // printf("%s\n", shape[i]->name);
-        // name[i] = type;
-        // perimeter[i] = shape[i]->perimeter(shape[i]);
-        // area[i] = shape[i]->area(shape[i]);
     }
     sortshape(shape, num);
-    pringShape(shape, num);
-
-    
-    
+    pringShape(shape, num);    
 }
