@@ -7,8 +7,8 @@
 #define shapeText(TYPE) char name[10]; \
     int (*perimeter)(struct TYPE*); \
     int (*area)(struct TYPE*);
-
 typedef struct shape_s { shapeText(shape_s); } shape_t;
+
 typedef struct circle_s {
     shapeText(circle_s);
     int radius;
