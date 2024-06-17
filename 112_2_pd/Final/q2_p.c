@@ -94,6 +94,6 @@ void main(){
             }
         }
     }
-    sortShape();
-    printShape();
+    sortShape(shape, num);
+    printShape(shape, num);
 }

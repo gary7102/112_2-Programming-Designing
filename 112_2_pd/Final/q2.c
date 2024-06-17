@@ -76,16 +76,13 @@ shape_t * new_shape(char *name)
 }
 void sortshape(shape_t *shapes[], int num)
 {
-    for (int i = 0; i < num-1; i++)
-    {
-        for (int j = 0; j < num - i - 1; j++)
-        {
+    for (int i = 0; i < num-1; i++){
+        for (int j = 0; j < num - i - 1; j++){
             if (shapes[j]->perimeter(shapes[j]) < shapes[j + 1]->perimeter(shapes[j + 1]) || 
-                (shapes[j]->perimeter(shapes[j]) == shapes[j+1]->perimeter(shapes[j+1]) && shapes[j]->area(shapes[j]) < shapes[j+1]->area(shapes[j+1])))
-            {
-                shape_t *temp = shapes[j];
-                shapes[j] = shapes[j+1];
-                shapes[j+1] = temp;
+                (shapes[j]->perimeter(shapes[j]) == shapes[j+1]->perimeter(shapes[j+1]) && shapes[j]->area(shapes[j]) < shapes[j+1]->area(shapes[j+1]))){
+                    shape_t *temp = shapes[j];
+                    shapes[j] = shapes[j+1];
+                    shapes[j+1] = temp;
             }
         }
     }
