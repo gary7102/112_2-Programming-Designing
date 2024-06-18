@@ -1,15 +1,15 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
+#include <stdlib.h>
 
 typedef struct  node_s { 
     char   data; 
-    struct   node_s * right, * left; 
+    struct   node_s   * right, * left; 
 } tree_t; 
-typedef tree_t * btree;
+typedef tree_t * btree; 
 
 tree_t *newNode(char data){
-    tree_t *t = (tree_t*)malloc(sizeof(tree_t));
+    tree_t *t = (tree_t *)malloc(sizeof(tree_t));
     t->data = data;
     t->left = t->right = NULL;
     return t;
@@ -17,7 +17,7 @@ tree_t *newNode(char data){
 
 int search(char arr[], int start, int end, char key){
     for(int i=start; i<=end; i++){
-        if(arr[i] == key)return i;
+        if(arr[i] == key) return i;
     }
     return -1;
 }
@@ -27,8 +27,6 @@ tree_t *buildTreePreIn(char in[], char pre[], int inStart, int inEnd, int *preIn
 
     tree_t *tNode = newNode(pre[*preIndex]);
     (*preIndex)++;
-
-    if(inStart == inEnd) return tNode;
 
     int index = search(in, inStart, inEnd, tNode->data);
     tNode->left = buildTreePreIn(in, pre, inStart, index-1, preIndex);
@@ -42,8 +40,6 @@ tree_t *buildTreePostIn(char in[], char post[], int inStart, int inEnd, int *pos
     tree_t *tNode = newNode(post[*postIndex]);
     (*postIndex)--;
 
-    if(inStart == inEnd) return tNode;
-
     int index = search(in, inStart, inEnd, tNode->data);
     tNode->right = buildTreePostIn(in, post, index+1, inEnd, postIndex);
     tNode->left = buildTreePostIn(in, post, inStart, index-1, postIndex);
@@ -53,10 +49,10 @@ tree_t *buildTreePostIn(char in[], char post[], int inStart, int inEnd, int *pos
 void BFS(tree_t *root){
     if(root == NULL) return;
 
-    int front = 0, rear = 0;
+    int front=0, rear = 0;
     tree_t *queue[100];
-    
     queue[rear++] = root;
+    
     while(front < rear){
         tree_t *current = queue[front++];
         printf("%c", current->data);
@@ -66,11 +62,13 @@ void BFS(tree_t *root){
     }
 }
 
-int main(){
+void main(){
     int n;
     scanf("%d", &n);
+    
     char traverseType1, traverseType2;
     char traverseData1[100], traverseData2[100];
+
     scanf(" %c", &traverseType1);
     scanf("%s", traverseData1);
     scanf(" %c", &traverseType2);
@@ -78,7 +76,7 @@ int main(){
 
     tree_t *root = NULL;
     int index = 0;
-
+    
     if(traverseType1 == 'P' && traverseType2 == 'I'){
         index = 0;
         root = buildTreePreIn(traverseData2, traverseData1, 0, n-1, &index);
