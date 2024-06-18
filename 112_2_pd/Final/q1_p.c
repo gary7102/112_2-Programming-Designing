@@ -60,8 +60,8 @@ void removeLowFrequency(char *article[], int totalWords, int n){
 int compare(const void *a, const void *b){
     WordEntry *word1 = (WordEntry*)a;
     WordEntry *word2 = (WordEntry*)b;
-    if(word1->count != word2->count) return word1->count - word2->count;
-    else return strcmp(word1->word, word2->word);
+    if(word1->count != word2->count) return word1->count - word2->count; //升序
+    else return strcmp(word1->word, word2->word);   //字典升序
 }
 
 void outputFrequency(char *article[], int totalWords){
