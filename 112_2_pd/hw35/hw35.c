@@ -102,6 +102,5 @@ int main() {
             free(nodes[i]);
         }
     }
-
     return 0;
 }
