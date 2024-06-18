@@ -3,31 +3,29 @@
 #include <string.h>
 
 typedef struct  node_s { 
-    char data; 
-    struct node_s *right, *left; 
+    char   data; 
+    struct   node_s * right, * left; 
 } tree_t; 
-typedef   tree_t * btree;
+typedef tree_t * btree;
 
-tree_t* newNode(char data){
-    tree_t* node = (tree_t*)malloc(sizeof(tree_t));
-    node->data = data;
-    node->left = node->right = NULL;
-    return node;
+tree_t *newNode(char data){
+    tree_t *t = (tree_t*)malloc(sizeof(tree_t));
+    t->data = data;
+    t->left = t->right = NULL;
+    return t;
 }
 
-int search(char arr[], int start, int end, char data){
+int search(char arr[], int start, int end, char key){
     for(int i=start; i<=end; i++){
-        if(arr[i] == data){
-            return i;
-        }
+        if(arr[i] == key)return i;
     }
     return -1;
 }
 
-tree_t* buildTreePreIn(char in[], char pre[], int inStart, int inEnd, int *preIndex){
-    if(inStart>inEnd) return NULL;
-    
-    tree_t* tNode = newNode(pre[*preIndex]);
+tree_t *buildTreePreIn(char in[], char pre[], int inStart, int inEnd, int *preIndex){
+    if(inStart > inEnd) return NULL;
+
+    tree_t *tNode = newNode(pre[*preIndex]);
     (*preIndex)++;
 
     if(inStart == inEnd) return tNode;
@@ -38,10 +36,10 @@ tree_t* buildTreePreIn(char in[], char pre[], int inStart, int inEnd, int *preIn
     return tNode;
 }
 
-tree_t* buildTreePostIn(char in[], char post[], int inStart, int inEnd, int *postIndex){
-    if(inStart>inEnd) return NULL;
-    
-    tree_t* tNode = newNode(post[*postIndex]);
+tree_t *buildTreePostIn(char in[], char post[], int inStart, int inEnd, int *postIndex){
+    if(inStart > inEnd) return NULL;
+
+    tree_t *tNode = newNode(post[*postIndex]);
     (*postIndex)--;
 
     if(inStart == inEnd) return tNode;
@@ -52,16 +50,17 @@ tree_t* buildTreePostIn(char in[], char post[], int inStart, int inEnd, int *pos
     return tNode;
 }
 
-void BFS(tree_t* root){
+void BFS(tree_t *root){
     if(root == NULL) return;
 
     int front = 0, rear = 0;
-    tree_t* queue[100];
+    tree_t *queue[100];
     
     queue[rear++] = root;
     while(front < rear){
-        tree_t* current = queue[front++];
+        tree_t *current = queue[front++];
         printf("%c", current->data);
+
         if(current->left != NULL) queue[rear++] = current->left;
         if(current->right != NULL) queue[rear++] = current->right;
     }
@@ -77,13 +76,14 @@ int main(){
     scanf(" %c", &traverseType2);
     scanf("%s", traverseData2);
 
-    tree_t* root = NULL;
-    int index;
+    tree_t *root = NULL;
+    int index = 0;
+
     if(traverseType1 == 'P' && traverseType2 == 'I'){
         index = 0;
         root = buildTreePreIn(traverseData2, traverseData1, 0, n-1, &index);
     }
-    else if(traverseType1 == 'O' && traverseType2 =='I'){
+    else if(traverseType1 == 'O' && traverseType2 == 'I'){
         index = n-1;
         root = buildTreePostIn(traverseData2, traverseData1, 0, n-1, &index);
     }
