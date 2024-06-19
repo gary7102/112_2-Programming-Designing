@@ -85,7 +85,7 @@ void outputFrequency(char *article[], int totalWords){
     qsort(entries, uniqueWords, sizeof(WordEntry), compare);
 
     int count = (uniqueWords < 3)? uniqueWords : 3;
-    for(int i=0; i<count; i++){
+    for(int i=0; i<count; i++){ 
         printf("%s:%d\n", entries[i].word, entries[i].count);
     }
 
